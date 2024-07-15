@@ -8,8 +8,11 @@ import { carsAround, filterData } from "../components/globals/data";
 import MapView, { PROVIDER_GOOGLE, Marker} from "react-native-maps";
 import { mapStyle } from "../components/globals/mapStyles";
 import * as Location from "expo-location"
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { mainStackParamList } from "../../utils/types";
 
-const Home = () => {
+const Home = ({ navigation  }:NativeStackScreenProps<mainStackParamList>) => {
 
   const [location, setLocation] = useState<null | {
     lat: number,
@@ -48,6 +51,7 @@ const Home = () => {
           <Icon type="material-community" name="menu" color={colors.white} />
         </View>
       </View>
+   
       <ScrollView bounces={false}>
         <View style={styles.home}>
           <Text style={styles.text1}>Distress your commute</Text>
@@ -56,9 +60,13 @@ const Home = () => {
               <Text style={styles.text2}>
                 Read a book. Take a nap. Stare out the window
               </Text>
-              <View style={styles.button1}>
-                <Text style={styles.button1Text}>Ride with Uber</Text>
-              </View>
+              <TouchableOpacity
+              activeOpacity={0.7}
+                onPress={() => {
+                navigation.navigate("rideRequestScreen")
+              }} style={styles.button1}>
+                <Text style={styles.button1Text}>Ride with Uber {""}</Text>
+              </TouchableOpacity>
             </View>
             <View>
               <Image
@@ -197,10 +205,14 @@ const Home = () => {
           </Text>
         </View>
         <View
+       
           style={{
             alignItems: "center",
             justifyContent: "center",
             marginTop: 10,
+            display: "flex",
+            flex: 1,
+            height: 500
             
           }}
         >
@@ -229,6 +241,7 @@ const Home = () => {
           </MapView>
         </View>
       </ScrollView>
+     
       <StatusBar style="auto" backgroundColor="#2058c0" translucent={true} />
     </View>
   );
@@ -359,7 +372,7 @@ const styles = StyleSheet.create({
   },
 
   map: {
-    height: 150,
+    height: "100%",
     marginVertical: 0,
     width: SCREEN_WIDTH * 0.92,
   },
